@@ -66,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Text(
               userInput,
               style: const TextStyle(
-                fontSize: 32,
+                fontSize: 38,
               ),
             ),
           ),
@@ -76,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Text(
               result,
               style: const TextStyle(
-                fontSize: 34,
+                fontSize: 42,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -89,13 +89,13 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget buttonWidget() {
     return Container(
       padding: const EdgeInsets.all(10),
-      color: const Color.fromARGB(66, 233, 232, 232),
+      color: Color.fromARGB(0, 255, 255, 255),
       child: GridView.builder(
           itemCount: buttonList.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 4,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12,
           ),
           itemBuilder: (context, index) {
             return button(buttonList[index]);
@@ -104,27 +104,42 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   getColor(String text) {
+    if (text == "/" || text == "*" || text == "+" || text == "-") {
+      return Colors.white;
+    }
+    if (text == "1" ||
+        text == "2" ||
+        text == "3" ||
+        text == "4" ||
+        text == "5" ||
+        text == "6" ||
+        text == "7" ||
+        text == "8" ||
+        text == "9" ||
+        text == "0" ||
+        text == "AC" ||
+        text == "(" ||
+        text == ")" ||
+        text == "C" ||
+        text == ".") {
+      return Color.fromARGB(255, 55, 55, 55);
+    }
+    if (text == "=") {
+      return Colors.white;
+    }
+    return Colors.blue;
+  }
+
+  getBgColor(String text) {
     if (text == "/" ||
         text == "*" ||
         text == "+" ||
         text == "-" ||
-        text == "C" ||
-        text == "(" ||
-        text == ")") {
-      return Colors.redAccent;
+        text == "=") {
+      return Colors.blueAccent;
     }
-    if (text == "=" || text == "AC") {
-      return Colors.white;
-    }
-    return Colors.indigo;
-  }
-
-  getBgColor(String text) {
-    if (text == "AC") {
-      return Colors.redAccent;
-    }
-    if (text == "=") {
-      return Colors.greenAccent;
+    if (text == "AC" || text == "(" || text == ")" || text == "C") {
+      return const Color.fromARGB(255, 205, 205, 205);
     }
     return Colors.white;
   }
@@ -139,7 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Container(
         decoration: BoxDecoration(
             color: getBgColor(text),
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(30),
             boxShadow: [
               BoxShadow(
                 color: Colors.grey.withOpacity(0.1),
@@ -152,7 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
           text,
           style: TextStyle(
             color: getColor(text),
-            fontSize: 30,
+            fontSize: 32,
             fontWeight: FontWeight.bold,
           ),
         )),
@@ -173,6 +188,9 @@ class _HomeScreenState extends State<HomeScreen> {
       } else {
         return null;
       }
+    }
+    if (userInput.endsWith(".")) {
+      userInput = userInput.replaceAll(".", ".");
     }
     if (text == "=") {
       result = calculate();
